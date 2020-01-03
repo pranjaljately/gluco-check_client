@@ -9,6 +9,7 @@ import {
   VictoryCursorContainer,
 } from 'victory-native';
 import Svg from 'react-native-svg';
+import PropTypes from 'prop-types';
 
 const GlucoseGraph = ({ data }) => (
   <Svg>
@@ -98,5 +99,9 @@ const GlucoseGraph = ({ data }) => (
     </VictoryChart>
   </Svg>
 );
+
+GlucoseGraph.propTypes = {
+  data: PropTypes.array.isRequired,
+};
 
 export default GlucoseGraph;
