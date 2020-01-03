@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableHighlight, Text, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 
 const FrequencyTabItem = ({ tab, selectedTabId, onPress }) => {
   return (
@@ -33,4 +34,10 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
 });
+
+FrequencyTabItem.propTypes = {
+  tab: PropTypes.object.isRequired,
+  onPress: PropTypes.func.isRequired,
+  selectedTabId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
 export default FrequencyTabItem;
