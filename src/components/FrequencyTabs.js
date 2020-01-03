@@ -1,27 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import FrequencyTabItem from './FrequencyTabItem';
 
-const FrequencyTabs = ({ tabs, selectedTabId, updateSelected }) => {
-  console.log(selectedTabId);
-  useEffect(() => {
-    makeApiCall(selectedTabId);
-  }, [selectedTabId]);
-
-  const onPress = tab => {
-    updateSelected(tab.id);
-  };
-
+const FrequencyTabs = ({ tabs, selectedTab, updateSelected }) => {
   const makeApiCall = url => {
-    alert(selectedTabId);
+    alert(selectedTab);
   };
   const tabItems = tabs.map(tab => (
     <FrequencyTabItem
       key={tab.id}
       tab={tab}
-      onPress={onPress}
-      selectedTabId={selectedTabId}
+      updateSelected={updateSelected}
+      selectedTab={selectedTab}
     />
   ));
 
@@ -41,7 +32,7 @@ const FrequencyTabs = ({ tabs, selectedTabId, updateSelected }) => {
 
 FrequencyTabs.propTypes = {
   tabs: PropTypes.array.isRequired,
-  selectedTabId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  selectedTab: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     .isRequired,
   updateSelected: PropTypes.func.isRequired,
 };
