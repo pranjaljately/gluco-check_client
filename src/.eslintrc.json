@@ -1,0 +1,27 @@
+{
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": false
+    }
+  },
+  "extends": ["airbnb"],
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "no-unused-vars": "warn",
+    "no-console": "off",
+    "func-names": "off",
+    "jsx-quotes": "off",
+    "no-use-before-define": "off",
+    "arrow-parens": "warn",
+    "import/no-extraneous-dependencies": [
+      "off",
+      {
+        "devDependencies": true,
+        "optionalDependencies": true,
+        "peerDependencies": true
+      }
+    ]
+  }
+}
