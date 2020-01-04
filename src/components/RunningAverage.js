@@ -15,8 +15,7 @@ const styles = StyleSheet.create({
   },
 });
 
-RunningAverage.propType = {
-  average: PropTypes.number.isRequired,
+RunningAverage.propTypes = {
+  average: PropTypes.string.isRequired,
 };
-
 export default RunningAverage;
