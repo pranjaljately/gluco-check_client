@@ -1,13 +1,14 @@
 {
   "parserOptions": {
+    "ecmaVersion": 2019,
     "sourceType": "module",
     "ecmaFeatures": {
-      "jsx": true,
-      "modules": false
+      "jsx": true
     }
   },
   "extends": ["airbnb"],
   "rules": {
+    "strict": ["error", "never"],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "no-unused-vars": "warn",
     "no-console": "off",
@@ -15,6 +16,7 @@
     "jsx-quotes": "off",
     "no-use-before-define": "off",
     "arrow-parens": "warn",
+    "react/forbid-prop-types": "off",
     "import/no-extraneous-dependencies": [
       "off",
       {
