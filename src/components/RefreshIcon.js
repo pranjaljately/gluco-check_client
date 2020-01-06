@@ -3,13 +3,13 @@ import { StyleSheet } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 
-const RefreshIcon = ({ onUpdatedAtChange }) => (
+const RefreshIcon = ({ onIconPress }) => (
   <FontAwesome.Button
     name='refresh'
     size={26}
     backgroundColor='transparent'
     iconStyle={styles.icon}
-    onPress={() => onUpdatedAtChange()}
+    onPress={() => onIconPress()}
     activeOpacity={0.8}
     underlayColor='rgba(0, 0, 0, 0.1)'
   />
@@ -24,6 +24,6 @@ const styles = StyleSheet.create({
 });
 
 RefreshIcon.propTypes = {
-  onUpdatedAtChange: PropTypes.func.isRequired,
+  onIconPress: PropTypes.func.isRequired,
 };
 export default RefreshIcon;
