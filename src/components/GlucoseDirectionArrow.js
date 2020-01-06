@@ -8,8 +8,8 @@ const GlucoseDirectionArrow = ({ twoLatestReadings }) => {
   if (twoLatestReadings.length < 2) {
     name = 'arrow-right';
   } else {
-    let secondLast = twoLatestReadings[0]['y'];
-    let last = twoLatestReadings[1]['y'];
+    const last = twoLatestReadings[0];
+    const secondLast = twoLatestReadings[1];
     name = iconName(secondLast, last);
   }
   return <Feather name={name} size={70} style={styles.arrow} />;
@@ -18,7 +18,8 @@ const GlucoseDirectionArrow = ({ twoLatestReadings }) => {
 const iconName = (secondLast, last) => {
   if (secondLast > last) {
     return 'arrow-down';
-  } else if (secondLast === last) {
+  }
+  if (secondLast === last) {
     return 'arrow-right';
   }
   return 'arrow-up';
