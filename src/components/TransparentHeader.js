@@ -3,9 +3,17 @@ import { Header, Body, Title } from 'native-base';
 import PropTypes from 'prop-types';
 
 const TransparentHeader = ({ title }) => (
-  <Header transparent>
+  <Header transparent style={{ marginBottom: 10 }}>
     <Body style={{ alignItems: 'center' }}>
-      <Title style={{ fontSize: 25, color: '#FF3A79' }}>{title}</Title>
+      <Title
+        style={{
+          fontSize: 25,
+          color: '#FF3A79',
+          textTransform: 'uppercase',
+        }}
+      >
+        {title}
+      </Title>
     </Body>
   </Header>
 );
