@@ -7,9 +7,9 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-const FrequencyTabItem = ({ tab, selectedTab, updateSelected }) => (
+const FrequencyTabItem = ({ tab, selectedTabId, onFrequencyTabPress }) => (
   <TouchableHighlight
-    onPress={() => updateSelected(tab.id)}
+    onPress={() => onFrequencyTabPress(tab.id)}
     style={{
       alignItems: 'center',
       flexGrow: 1,
@@ -22,11 +22,13 @@ const FrequencyTabItem = ({ tab, selectedTab, updateSelected }) => (
       borderTopEndRadius: 10,
       borderBottomColor: '#FF3A79',
       // border-radius: 30% / 100%;
-      borderBottomWidth: selectedTab === tab.id ? 2 : 0,
+      borderBottomWidth: selectedTabId === tab.id ? 2 : 0,
     }}
     activeOpacity={0.8}
     underlayColor={
-      selectedTab === tab.id ? 'rgba(255, 58, 121, 0.3)' : 'rgba(0, 0, 0, 0.3)'
+      selectedTabId === tab.id
+        ? 'rgba(255, 58, 121, 0.3)'
+        : 'rgba(0, 0, 0, 0.3)'
     }
   >
     <Text style={styles.tabText}>{tab.text}</Text>
@@ -43,8 +45,7 @@ const styles = StyleSheet.create({
 
 FrequencyTabItem.propTypes = {
   tab: PropTypes.object.isRequired,
-  updateSelected: PropTypes.func.isRequired,
-  selectedTab: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    .isRequired,
+  onFrequencyTabPress: PropTypes.func.isRequired,
+  selectedTabId: PropTypes.string.isRequired,
 };
 export default FrequencyTabItem;
