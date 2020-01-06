@@ -6,6 +6,9 @@
       "jsx": true
     }
   },
+  "env": {
+    "browser": true
+  },
   "extends": ["airbnb"],
   "rules": {
     "strict": ["error", "never"],
@@ -18,6 +21,11 @@
     "arrow-parens": "off",
     "react/forbid-prop-types": "off",
     "object-curly-newline": "off",
+    "no-shadow": [
+      "off",
+      { "builtinGlobals": false, "hoist": "never", "allow": [] }
+    ],
+    "max-len": "off",
     "import/no-extraneous-dependencies": [
       "off",
       {
