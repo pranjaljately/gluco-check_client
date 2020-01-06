@@ -15,8 +15,9 @@
     "func-names": "off",
     "jsx-quotes": "off",
     "no-use-before-define": "off",
-    "arrow-parens": "warn",
+    "arrow-parens": "off",
     "react/forbid-prop-types": "off",
+    "object-curly-newline": "off",
     "import/no-extraneous-dependencies": [
       "off",
       {
