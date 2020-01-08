@@ -25,7 +25,10 @@
       "off",
       { "builtinGlobals": false, "hoist": "never", "allow": [] }
     ],
+    "comma-dangle": "warn",
     "max-len": "off",
+    "implicit-arrow-linebreak": "off",
+    "no-trailing-spaces": ["error", { "ignoreComments": true }],
     "import/no-extraneous-dependencies": [
       "off",
       {

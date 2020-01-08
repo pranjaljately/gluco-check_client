@@ -111,8 +111,8 @@ const HomeScreen = () => {
       });
       const data = await res.json();
       setApiData(data);
-    } catch (e) {
-      console.log(e.message);
+    } catch (err) {
+      console.log(err.message);
     }
   };
 
