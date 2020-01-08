@@ -27,6 +27,7 @@
     ],
     "comma-dangle": "warn",
     "max-len": "off",
+    "implicit-arrow-linebreak": "off",
     "import/no-extraneous-dependencies": [
       "off",
       {
