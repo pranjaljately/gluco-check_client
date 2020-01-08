@@ -25,6 +25,7 @@
       "off",
       { "builtinGlobals": false, "hoist": "never", "allow": [] }
     ],
+    "comma-dangle": "warn",
     "max-len": "off",
     "import/no-extraneous-dependencies": [
       "off",
