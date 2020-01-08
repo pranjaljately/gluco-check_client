@@ -1,19 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, SafeAreaView } from 'react-native';
 import TransparentHeader from '../components/TransparentHeader';
 import SwitchWithLabel from '../components/SwitchWithLabel';
+import registerForPushNotificationsAsync from '../services/RegisterForPushNotificationsAsync ';
+import checkIfNotificationsEnabled from '../services/CheckIfNotificationsEnabled';
+import PermissionAlert from '../components/PermissionAlert';
 
-const NotificationSettingScreen = () => {
+const AlertSettingScreen = () => {
   const [lowNotification, setLowNotification] = useState(true);
   const [highNotification, setHighNotification] = useState(true);
 
-  const onLowToggle = () => setLowNotification(!lowNotification);
-  const onHighToggle = () => setHighNotification(!highNotification);
+  const onLowToggle = async () => {
+    let toggleState = !lowNotification;
+    if (!(await checkIfNotificationsEnabled())) {
+      PermissionAlert();
+      toggleState = false;
+    }
+    setLowNotification(toggleState);
+  };
+  const onHighToggle = async () => {
+    let toggleState = !highNotification;
+    if (!(await checkIfNotificationsEnabled())) {
+      PermissionAlert();
+      toggleState = false;
+    }
+    setHighNotification(toggleState);
+  };
 
-  // Todo: Stop both components re-rendering when one is toggled.
+  useEffect(() => {
+    const permissions = async () => {
+      try {
+        await registerForPushNotificationsAsync();
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    permissions();
+  }, []);
+
+  /* 
+    Todo: Stop both components re-rendering when one is toggled 
+    Todo: Move useEffect to home screen 
+  */
+
   return (
     <SafeAreaView>
-      <TransparentHeader title='Notifications' />
+      <TransparentHeader title='Alerts' />
       <View style={{ paddingHorizontal: '3%' }}>
         <Text style={styles.description}>
           Receive notifications when your glcuose drops below 4.0 or goes above
@@ -59,4 +91,4 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
   },
 });
-export default NotificationSettingScreen;
+export default AlertSettingScreen;
