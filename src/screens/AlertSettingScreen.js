@@ -73,10 +73,6 @@ const AlertSettingScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    paddingHorizontal: '3%',
-  },
   description: {
     fontSize: 15,
     color: '#FFFFFF',
