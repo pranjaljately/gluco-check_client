@@ -9,6 +9,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "axios": "^0.19.1",
     "expo": "^36.0.2",
     "formik": "^2.1.1",
     "moment": "^2.24.0",
