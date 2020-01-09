@@ -29,6 +29,8 @@
     "max-len": "off",
     "implicit-arrow-linebreak": "off",
     "no-trailing-spaces": ["error", { "ignoreComments": true }],
+    "react/no-unescaped-entities": "off",
+    "react/jsx-one-expression-per-line": "off",
     "import/no-extraneous-dependencies": [
       "off",
       {
