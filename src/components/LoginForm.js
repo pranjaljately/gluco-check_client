@@ -1,9 +1,10 @@
 import React from 'react';
 import { Label, Item, Input, Form } from 'native-base';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Formik } from 'formik';
 import SubmitButton from './SubmitButton';
 import InputError from './InputError';
+import login from '../services/api/Login';
 
 const validate = values => {
   const errors = {};
@@ -24,10 +25,19 @@ const validate = values => {
 const LoginForm = () => (
   <Formik
     initialValues={{ email: '', password: '' }}
-    onSubmit={({ email, password }) => console.log(email, password)}
+    onSubmit={async ({ email, password }) => {
+      try {
+        await login({
+          email,
+          password,
+        });
+      } catch (err) {
+        alert(err.message);
+      }
+    }}
     validate={validate}
   >
-    {({ handleChange, handleBlur, handleSubmit, values }) => (
+    {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
       <Form>
         <View style={{ marginVertical: 10, marginBottom: 17 }}>
           <Item floatingLabel last style={styles.formItem}>
@@ -37,6 +47,7 @@ const LoginForm = () => (
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
               value={values.email}
+              autoCapitalize='none'
             />
           </Item>
           <InputError name='email' />
@@ -52,7 +63,11 @@ const LoginForm = () => (
           </Item>
           <InputError name='password' />
         </View>
-        <SubmitButton text='Log In' handleSubmit={handleSubmit} />
+        {isSubmitting ? (
+          <ActivityIndicator size='large' color='#62B1F6' />
+        ) : (
+          <SubmitButton text='Log In' handleSubmit={handleSubmit} />
+        )}
       </Form>
     )}
   </Formik>
