@@ -1,8 +1,9 @@
 import React from 'react';
-import { Label, Item, Input, Text, Form } from 'native-base';
+import { Label, Item, Input, Form } from 'native-base';
 import { View, StyleSheet } from 'react-native';
-import { Formik, ErrorMessage } from 'formik';
+import { Formik } from 'formik';
 import SubmitButton from './SubmitButton';
+import InputError from './InputError';
 
 const validate = values => {
   const errors = {};
@@ -28,7 +29,7 @@ const LoginForm = () => (
   >
     {({ handleChange, handleBlur, handleSubmit, values }) => (
       <Form>
-        <View style={{ marginVertical: 10 }}>
+        <View style={{ marginVertical: 10, marginBottom: 17 }}>
           <Item floatingLabel last style={styles.formItem}>
             <Label style={styles.label}>Email</Label>
             <Input
@@ -38,11 +39,7 @@ const LoginForm = () => (
               value={values.email}
             />
           </Item>
-          <ErrorMessage
-            style={styles.formError}
-            component={Text}
-            name='email'
-          />
+          <InputError name='email' />
           <Item floatingLabel last style={styles.formItem}>
             <Label style={styles.label}>Password</Label>
             <Input
@@ -53,11 +50,7 @@ const LoginForm = () => (
               value={values.password}
             />
           </Item>
-          <ErrorMessage
-            style={styles.formError}
-            component={Text}
-            name='password'
-          />
+          <InputError name='password' />
         </View>
         <SubmitButton text='Log In' handleSubmit={handleSubmit} />
       </Form>
