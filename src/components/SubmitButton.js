@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const SubmitButton = ({ text, handleSubmit }) => (
   <Button block info onPress={handleSubmit} style={{ marginBottom: 8 }}>
-    <Text>{text}</Text>
+    <Text style={{ color: '#FFFFFF' }}>{text}</Text>
   </Button>
 );
 
