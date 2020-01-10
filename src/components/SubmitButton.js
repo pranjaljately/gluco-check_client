@@ -4,7 +4,7 @@ import { Button } from 'native-base';
 import PropTypes from 'prop-types';
 
 const SubmitButton = ({ text, handleSubmit }) => (
-  <Button block info onPress={handleSubmit} style={{ marginBottom: 8 }}>
+  <Button block info onPress={handleSubmit} style={{ marginBottom: 12 }}>
     <Text style={{ color: '#FFFFFF' }}>{text}</Text>
   </Button>
 );

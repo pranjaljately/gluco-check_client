@@ -5,29 +5,26 @@ import {
   KeyboardAvoidingView,
   View,
 } from 'react-native';
+import PropTypes from 'prop-types';
 import LoginForm from '../components/LoginForm';
 import SplashLogo from '../components/SplashLogo';
 import SignUpText from '../components/SignUpText';
 
-const LoginScreen = () => (
-  <SafeAreaView style={styles.container}>
+const LoginScreen = ({ navigation }) => (
+  <SafeAreaView>
     <KeyboardAvoidingView style={styles.keyboardAreaView} behavior='padding'>
       <View style={styles.logo}>
         <SplashLogo />
       </View>
-      <LoginForm />
+      <LoginForm navigation={navigation} />
       <View style={styles.signUp}>
-        <SignUpText />
+        <SignUpText navigation={navigation} />
       </View>
     </KeyboardAvoidingView>
   </SafeAreaView>
 );
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    paddingHorizontal: '3%',
-  },
   keyboardAreaView: {
     height: '100%',
     justifyContent: 'center',
@@ -37,5 +34,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+LoginScreen.propTypes = {
+  navigation: PropTypes.object.isRequired,
+};
 
 export default LoginScreen;

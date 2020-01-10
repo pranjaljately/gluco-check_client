@@ -1,6 +1,7 @@
 import React from 'react';
 import { Label, Item, Input, Form } from 'native-base';
 import { View, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import SubmitButton from './SubmitButton';
 import InputError from './InputError';
@@ -30,7 +31,7 @@ const validate = values => {
   return errors;
 };
 
-const RegisterForm = () => (
+const RegisterForm = ({ navigation }) => (
   <Formik
     initialValues={{ name: '', email: '', password: '' }}
     onSubmit={async ({ name, email, password }, action) => {
@@ -40,6 +41,7 @@ const RegisterForm = () => (
           email,
           password,
         });
+        navigation.navigate('App');
       } catch (err) {
         action.setFieldError('email', err.message);
       }
@@ -95,4 +97,7 @@ const styles = StyleSheet.create({
   formItem: { marginTop: 20 },
 });
 
+RegisterForm.propTypes = {
+  navigation: PropTypes.object.isRequired,
+};
 export default RegisterForm;
