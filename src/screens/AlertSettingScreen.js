@@ -4,16 +4,22 @@ import TransparentHeader from '../components/TransparentHeader';
 import SwitchWithLabel from '../components/SwitchWithLabel';
 import registerForPushNotificationsAsync from '../services/RegisterForPushNotificationsAsync ';
 import checkIfNotificationsEnabled from '../services/CheckIfNotificationsEnabled';
-import PermissionAlert from '../components/PermissionAlert';
+import ErrorAlert from '../components/ErrorAlert';
 
 const AlertSettingScreen = () => {
   const [lowNotification, setLowNotification] = useState(true);
   const [highNotification, setHighNotification] = useState(true);
 
+  const alertMessage = {
+    title: 'Notifications not enabled',
+    message:
+      'To receive alerts you must enable notifications. Please enable notifications in Settings.',
+  };
+
   const onLowToggle = async () => {
     let toggleState = !lowNotification;
     if (!(await checkIfNotificationsEnabled())) {
-      PermissionAlert();
+      ErrorAlert(alertMessage);
       toggleState = false;
     }
     setLowNotification(toggleState);
@@ -21,7 +27,7 @@ const AlertSettingScreen = () => {
   const onHighToggle = async () => {
     let toggleState = !highNotification;
     if (!(await checkIfNotificationsEnabled())) {
-      PermissionAlert();
+      ErrorAlert(alertMessage);
       toggleState = false;
     }
     setHighNotification(toggleState);
