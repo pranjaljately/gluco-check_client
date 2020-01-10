@@ -6,24 +6,21 @@ import {
   View,
   Text,
 } from 'react-native';
+import PropTypes from 'prop-types';
 import RegisterForm from '../components/RegisterForm';
 
-const RegisterScreen = () => (
-  <SafeAreaView style={styles.container}>
+const RegisterScreen = ({ navigation }) => (
+  <SafeAreaView>
     <KeyboardAvoidingView style={styles.keyboardAreaView} behavior='padding'>
       <View style={styles.logo}>
         <Text style={styles.logoText}>Register</Text>
       </View>
-      <RegisterForm />
+      <RegisterForm navigation={navigation} />
     </KeyboardAvoidingView>
   </SafeAreaView>
 );
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    paddingHorizontal: '3%',
-  },
   keyboardAreaView: {
     height: '100%',
     justifyContent: 'center',
@@ -34,4 +31,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+RegisterScreen.propTypes = {
+  navigation: PropTypes.object.isRequired,
+};
+
 export default RegisterScreen;
