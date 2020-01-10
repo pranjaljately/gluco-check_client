@@ -4,6 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
 import SubmitButton from './SubmitButton';
 import InputError from './InputError';
+import register from '../services/api/Register';
 
 const validate = values => {
   const errors = {};
@@ -32,7 +33,17 @@ const validate = values => {
 const RegisterForm = () => (
   <Formik
     initialValues={{ name: '', email: '', password: '' }}
-    onSubmit={({ name, email, password }) => console.log(name, email, password)}
+    onSubmit={async ({ name, email, password }, action) => {
+      try {
+        await register({
+          name,
+          email,
+          password,
+        });
+      } catch (err) {
+        action.setFieldError('email', err.message);
+      }
+    }}
     validate={validate}
   >
     {({ handleChange, handleBlur, handleSubmit, values }) => (
@@ -55,6 +66,7 @@ const RegisterForm = () => (
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
               value={values.email}
+              autoCapitalize='none'
             />
           </Item>
           <InputError name='email' />
