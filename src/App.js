@@ -5,6 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import HomeScreen from './screens/HomeScreen';
 import AlertSettingScreen from './screens/AlertSettingScreen';
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
 
 const App = () => {
   const [isReady, setIsReady] = useState(false);
@@ -26,7 +28,7 @@ const App = () => {
   return (
     <SafeAreaView style={styles.container}>
       {/* <Text>Open up App.js to start working on your app!</Text> */}
-      <AlertSettingScreen />
+      <RegisterScreen />
     </SafeAreaView>
   );
 };
