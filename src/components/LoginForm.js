@@ -5,6 +5,7 @@ import { Formik } from 'formik';
 import SubmitButton from './SubmitButton';
 import InputError from './InputError';
 import login from '../services/api/Login';
+import ErrorAlert from './ErrorAlert';
 
 const validate = values => {
   const errors = {};
@@ -32,7 +33,10 @@ const LoginForm = () => (
           password,
         });
       } catch (err) {
-        alert(err.message);
+        ErrorAlert({
+          title: err.message,
+          message: 'The email or password you entered is incorrect',
+        });
       }
     }}
     validate={validate}
