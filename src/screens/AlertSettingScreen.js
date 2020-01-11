@@ -50,7 +50,7 @@ const AlertSettingScreen = () => {
   */
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <TransparentHeader title='Alerts' />
       <View style={{ paddingHorizontal: '3%' }}>
         <Text style={styles.description}>
@@ -79,6 +79,11 @@ const AlertSettingScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#333333',
+    width: '100%',
+  },
   description: {
     fontSize: 15,
     color: '#FFFFFF',
