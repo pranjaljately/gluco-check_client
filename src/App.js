@@ -96,21 +96,6 @@ const AppTabScreens = createMaterialBottomTabNavigator(
   }
 );
 
-const stackNavigator = createStackNavigator(
-  {
-    Home: AlertSettingScreen,
-    Alerts: AlertSettingScreen,
-    Insights: AlertSettingScreen,
-    Settings: AlertSettingScreen,
-    Profile: AlertSettingScreen,
-  },
-  {
-    headerMode: 'none',
-    defaultNavigationOptions: {
-      cardStyle: styles.container,
-    },
-  }
-);
 const AuthStack = createStackNavigator(
   {
     LogIn: {
