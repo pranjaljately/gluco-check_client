@@ -87,6 +87,7 @@ const HomeScreen = () => {
   const [updatedAt, setUpdatedAt] = useState(moment().format('HH:mm'));
 
   useEffect(() => {
+    // createFakeApiData();
     getReadings(selectedTab.fromTimestampParam());
   }, []);
 
@@ -117,8 +118,8 @@ const HomeScreen = () => {
   };
 
   // const createFakeApiData = async () => {
-  //   let startTimeStamp = 1578273306000;
-  //   let endTimeStamp = 1578355200000;
+  //   let startTimeStamp = 1578873600000;
+  //   let endTimeStamp = 1578960000000;
 
   //   while (startTimeStamp < endTimeStamp) {
   //     let reading = (Math.random() * (15 - 0.1) + 0.1).toFixed(1);
@@ -166,7 +167,6 @@ const HomeScreen = () => {
   const onIconPress = () => {
     getReadings(selectedTab.fromTimestampParam());
     updateLastUpdated();
-    // createFakeApiData();
   };
 
   const onFrequencyTabPress = tabId => {
@@ -219,8 +219,9 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
     paddingTop: Platform.OS === 'android' ? 45 : 0,
+    flex: 1,
+    backgroundColor: '#333333',
   },
   subContainer: {
     flexDirection: 'row',

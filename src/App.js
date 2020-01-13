@@ -18,7 +18,6 @@ const styles = {
   auth: {
     flex: 1,
     backgroundColor: '#333333',
-    width: '100%',
     paddingHorizontal: '3%',
   },
   label: {
