@@ -20,6 +20,8 @@ const FrequencyTabs = ({ tabs, selectedTabId, onFrequencyTabPress }) => {
         justifyContent: 'space-between',
         marginTop: 10,
         marginBottom: 10,
+        borderTopColor: 'rgba(0, 0, 0, 0.1)',
+        borderTopWidth: 0.5,
       }}
     >
       {tabItems}
