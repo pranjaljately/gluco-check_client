@@ -1,8 +1,11 @@
+/* eslint-disable global-require */
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from './screens/HomeScreen';
 import AlertSettingScreen from './screens/AlertSettingScreen';
@@ -17,17 +20,82 @@ const styles = {
     width: '100%',
     paddingHorizontal: '3%',
   },
+  label: {
+    fontSize: 5,
+    fontWeight: 'bold',
+  },
 };
 
-const AppStack = createStackNavigator(
-  { Home: AlertSettingScreen },
+const AppTabScreens = createMaterialBottomTabNavigator(
   {
-    headerMode: 'none',
-    defaultNavigationOptions: {
-      cardStyle: styles.container,
+    Home: {
+      screen: AlertSettingScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <MaterialIcons name='home' style={{ color: tintColor }} size={26} />
+        ),
+      },
     },
+    Alerts: {
+      screen: AlertSettingScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <MaterialIcons
+            name='notifications'
+            style={{ color: tintColor }}
+            size={26}
+          />
+        ),
+      },
+    },
+    Insights: {
+      screen: AlertSettingScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <MaterialIcons
+            name='graphic-eq'
+            style={{ color: tintColor }}
+            size={26}
+          />
+        ),
+      },
+    },
+    Settings: {
+      screen: AlertSettingScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <MaterialIcons
+            name='settings'
+            style={{ color: tintColor }}
+            size={26}
+          />
+        ),
+      },
+    },
+    Profile: {
+      screen: AlertSettingScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <MaterialIcons
+            name='account-circle'
+            style={{ color: tintColor }}
+            size={26}
+          />
+        ),
+      },
+    },
+  },
+  {
+    initialRouteName: 'Home',
+    shifting: false,
+    labeled: true,
+    activeColor: '#FF3A79',
+    inactiveColor: '#FFFFFF',
+    barStyle: { backgroundColor: '#333333' },
+    backBehavior: 'order',
   }
 );
+
 const AuthStack = createStackNavigator(
   {
     LogIn: {
@@ -48,7 +116,7 @@ const AuthStack = createStackNavigator(
 const switchNavigator = createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
-    App: AppStack,
+    App: AppTabScreens,
     Auth: AuthStack,
   },
   {
