@@ -16,7 +16,7 @@ import AuthLoadingScreen from './screens/AuthLoadingScreen';
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: '#333333',
     width: '100%',
     paddingHorizontal: '3%',
   },
@@ -90,8 +90,8 @@ const AppTabScreens = createMaterialBottomTabNavigator(
     shifting: false,
     labeled: true,
     activeColor: '#FF3A79',
-    inactiveColor: '#000000',
-    barStyle: { backgroundColor: '#FFFFFF' },
+    inactiveColor: '#FFFFFF',
+    barStyle: { backgroundColor: '#333333' },
     backBehavior: 'order',
   }
 );
