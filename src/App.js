@@ -11,13 +11,13 @@ import HomeScreen from './screens/HomeScreen';
 import AlertSettingScreen from './screens/AlertSettingScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import SettingsScreen from './screens/SettingsScreen';
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
 
 const styles = {
-  container: {
+  auth: {
     flex: 1,
     backgroundColor: '#333333',
-    width: '100%',
     paddingHorizontal: '3%',
   },
   label: {
@@ -29,7 +29,7 @@ const styles = {
 const AppTabScreens = createMaterialBottomTabNavigator(
   {
     Home: {
-      screen: AlertSettingScreen,
+      screen: HomeScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <MaterialIcons name='home' style={{ color: tintColor }} size={26} />
@@ -61,7 +61,7 @@ const AppTabScreens = createMaterialBottomTabNavigator(
       },
     },
     Settings: {
-      screen: AlertSettingScreen,
+      screen: SettingsScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <MaterialIcons
@@ -108,7 +108,7 @@ const AuthStack = createStackNavigator(
   {
     headerMode: 'none',
     defaultNavigationOptions: {
-      cardStyle: styles.container,
+      cardStyle: styles.auth,
     },
   }
 );

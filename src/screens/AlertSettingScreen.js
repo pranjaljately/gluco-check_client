@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#333333',
-    width: '100%',
   },
   description: {
     fontSize: 15,

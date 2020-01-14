@@ -1,44 +1,32 @@
 import React from 'react';
-import {
-  TouchableHighlight,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Text, TouchableRipple } from 'react-native-paper';
 import PropTypes from 'prop-types';
 
 const FrequencyTabItem = ({ tab, selectedTabId, onFrequencyTabPress }) => (
-  <TouchableHighlight
+  <TouchableRipple
     onPress={() => onFrequencyTabPress(tab.id)}
     style={{
       alignItems: 'center',
       flexGrow: 1,
       flexShrink: 0,
       flexBasis: 0,
-      marginTop: 5,
-      paddingTop: 17,
-      paddingBottom: 17,
+      paddingVertical: 19,
       borderTopStartRadius: 10,
       borderTopEndRadius: 10,
       borderBottomColor: '#FF3A79',
-      // border-radius: 30% / 100%;
       borderBottomWidth: selectedTabId === tab.id ? 2 : 0,
     }}
-    activeOpacity={0.8}
-    underlayColor={
-      selectedTabId === tab.id
-        ? 'rgba(255, 58, 121, 0.3)'
-        : 'rgba(0, 0, 0, 0.3)'
-    }
+    rippleColor='rgba(255, 58, 121, 0.2)'
   >
     <Text style={styles.tabText}>{tab.text}</Text>
-  </TouchableHighlight>
+  </TouchableRipple>
 );
 
 const styles = StyleSheet.create({
   tabText: {
     color: '#FFFFFF',
-    fontSize: 15,
+    fontSize: 14,
     textTransform: 'uppercase',
   },
 });
