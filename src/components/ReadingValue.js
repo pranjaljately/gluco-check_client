@@ -3,12 +3,14 @@ import { View, Text, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 const ReadingValue = ({ latestReading }) => {
-  const splitValueArr = latestReading.toString().split('.');
+  const int = Math.floor(latestReading).toString();
+  const decimal = (latestReading % 1).toFixed(1).replace(/^0+/, '');
+
   return (
     <View>
       <Text style={styles.readingVal}>
-        {splitValueArr[0]}
-        <Text style={{ fontSize: 60 }}>.{splitValueArr[1]}</Text>
+        {int}
+        <Text style={{ fontSize: 60 }}>{decimal}</Text>
       </Text>
     </View>
   );
@@ -17,7 +19,7 @@ const ReadingValue = ({ latestReading }) => {
 const styles = StyleSheet.create({
   readingVal: {
     color: '#FFFFFF',
-    fontSize: 140,
+    fontSize: 135,
   },
 });
 
