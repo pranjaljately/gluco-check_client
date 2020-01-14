@@ -19,7 +19,12 @@ const GlucoseGraph = ({ readings }) => {
     return formattedData;
   };
 
-  const graphData = formatGraphData(readings);
+  const displayGraphData = readings.length > 1;
+  let graphData = [];
+
+  if (displayGraphData) {
+    graphData = formatGraphData(readings);
+  }
 
   return (
     <Svg>
@@ -64,7 +69,7 @@ const GlucoseGraph = ({ readings }) => {
           tickFormat={() => ''}
           // tickCount={6}
         />
-        {graphData.length !== 0 && (
+        {displayGraphData && (
           <VictoryLine
             style={{
               data: { stroke: '#FFFFFF', strokeWidth: 2, opacity: 0.3 },
@@ -75,7 +80,7 @@ const GlucoseGraph = ({ readings }) => {
           />
         )}
 
-        {graphData.length !== 0 && (
+        {displayGraphData && (
           <VictoryLine
             style={{
               data: { stroke: '#FFFFFF', strokeWidth: 2, opacity: 0.3 },
@@ -85,7 +90,7 @@ const GlucoseGraph = ({ readings }) => {
             y={() => 7.0}
           />
         )}
-        {graphData.length !== 0 && (
+        {displayGraphData && (
           <VictoryLine
             style={{
               data: {
@@ -98,12 +103,12 @@ const GlucoseGraph = ({ readings }) => {
             // x='readingTime'
             // y='value'
             animate={{
-              duration: 500,
-              onLoad: { duration: 1000 },
+              duration: 300,
+              onLoad: { duration: 700 },
             }}
           />
         )}
-        {graphData.length !== 0 && (
+        {displayGraphData && (
           <VictoryScatter
             size={({ active }) => (active ? 9 : 2)}
             symbol='circle'
