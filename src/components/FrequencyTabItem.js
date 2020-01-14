@@ -11,7 +11,7 @@ const FrequencyTabItem = ({ tab, selectedTabId, onFrequencyTabPress }) => (
       flexGrow: 1,
       flexShrink: 0,
       flexBasis: 0,
-      paddingVertical: 18,
+      paddingVertical: 19,
       borderTopStartRadius: 10,
       borderTopEndRadius: 10,
       borderBottomColor: '#FF3A79',
