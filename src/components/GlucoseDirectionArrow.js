@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const GlucoseDirectionArrow = ({ twoLatestReadings }) => {
   let name = '';
-  if (twoLatestReadings.length < 2) {
+  if (twoLatestReadings.length === 1) {
     name = 'arrow-right';
   } else {
     const last = twoLatestReadings[0];
