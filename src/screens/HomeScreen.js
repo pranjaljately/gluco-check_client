@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Platform, SafeAreaView } from 'react-native';
+import { View, StyleSheet, Platform, SafeAreaView, Text } from 'react-native';
 import Constants from 'expo-constants';
 import moment from 'moment';
 import ReadingValue from '../components/ReadingValue';
@@ -10,36 +10,9 @@ import LastUpdated from '../components/LastUpdated';
 import RefreshIcon from '../components/RefreshIcon';
 import GlucoseGraph from '../components/GlucoseGraph';
 import FrequencyTabs from '../components/FrequencyTabs';
+import getReadings from '../services/api/GetReadings';
 
 const { manifest } = Constants;
-
-const mockData = [
-  { x: 1200, y: 2.9 },
-  { x: 1215, y: 3.1 },
-  { x: 1230, y: 3.2 },
-  { x: 1245, y: 3.4 },
-  { x: 1300, y: 3.1 },
-  { x: 1315, y: 3.3 },
-  { x: 1330, y: 3.0 },
-  { x: 1345, y: 5.8 },
-  { x: 1400, y: 9.3 },
-  { x: 1415, y: 7.8 },
-  { x: 1430, y: 5.7 },
-  { x: 1445, y: 2.8 },
-  { x: 1500, y: 3 },
-  { x: 1515, y: 3.3 },
-  { x: 1530, y: 4.2 },
-  { x: 1545, y: 3.7 },
-  { x: 1600, y: 3.1 },
-  { x: 1615, y: 3.8 },
-  { x: 1630, y: 5.7 },
-  { x: 1645, y: 7.4 },
-  { x: 1700, y: 4.9 },
-  { x: 1715, y: 4.7 },
-  { x: 1730, y: 4.0 },
-  { x: 1745, y: 3.2 },
-  { x: 1800, y: 4.1 },
-];
 
 const tabs = [
   {
@@ -88,29 +61,12 @@ const HomeScreen = () => {
 
   useEffect(() => {
     // createFakeApiData();
-    getReadings(selectedTab.fromTimestampParam());
+    getReadingsData(selectedTab.fromTimestampParam());
   }, []);
 
-  const getReadings = async (from, to = moment().valueOf()) => {
+  const getReadingsData = async (from, to = moment().valueOf()) => {
     try {
-      let params = '';
-
-      if (from) {
-        params = `${from}-${to}`;
-      }
-
-      const uri = `http://${manifest.debuggerHost
-        .split(':')
-        .shift()}:5000/api/v1/reading/${params}`;
-      const res = await fetch(`${uri}`, {
-        method: 'GET',
-        headers: {
-          'x-auth-token':
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZmQ1MWQ5ZWRjODYxMTI3NDQxMzhkZiIsImlhdCI6MTU3Njg4MjY1MCwiZXhwIjoxNTgyMDY2NjUwfQ.P8vkuvUl8_Ry9EQBG9a1TUGWonlzCD6WkZRDymjjs68',
-        },
-        'Content-Type': 'application/json',
-      });
-      const data = await res.json();
+      const data = await getReadings(from, to);
       setApiData(data);
     } catch (err) {
       console.log(err.message);
@@ -118,8 +74,8 @@ const HomeScreen = () => {
   };
 
   // const createFakeApiData = async () => {
-  //   let startTimeStamp = 1578873600000;
-  //   let endTimeStamp = 1578960000000;
+  //   let startTimeStamp = 1579012252000;
+  //   let endTimeStamp = 1579017052000;
 
   //   while (startTimeStamp < endTimeStamp) {
   //     let reading = (Math.random() * (15 - 0.1) + 0.1).toFixed(1);
@@ -139,7 +95,7 @@ const HomeScreen = () => {
   //         method: 'POST',
   //         headers: {
   //           'x-auth-token':
-  //             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZmQ1MWQ5ZWRjODYxMTI3NDQxMzhkZiIsImlhdCI6MTU3Njg4MjY1MCwiZXhwIjoxNTgyMDY2NjUwfQ.P8vkuvUl8_Ry9EQBG9a1TUGWonlzCD6WkZRDymjjs68',
+  //             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMThhYzI0Njc3M2FhNjRkYzNiMjdlOCIsImlhdCI6MTU3OTAxNjg3MSwiZXhwIjoxNTg0MjAwODcxfQ.B-ATvM0pgFDIaNRhXoHeaNflDsIuGmtnqeh21tD8Myc',
   //           'Content-Type': 'application/json',
   //         },
   //         body: JSON.stringify(postData),
@@ -165,34 +121,49 @@ const HomeScreen = () => {
   };
 
   const onIconPress = () => {
-    getReadings(selectedTab.fromTimestampParam());
+    getReadingsData(selectedTab.fromTimestampParam());
     updateLastUpdated();
   };
 
   const onFrequencyTabPress = tabId => {
     const tab = tabs.find(tab => tab.id === tabId);
     updateSelected(tab);
-    getReadings(tab.fromTimestampParam());
+    getReadingsData(tab.fromTimestampParam());
     updateLastUpdated();
   };
 
-  const getLatestTwoReadings = () => [
-    apiData.readings[0].value,
-    apiData.readings[1].value,
-  ];
+  const getLatestTwoReadings = () => {
+    if (apiData.readings[1]) {
+      return [apiData.readings[0].value, apiData.readings[1].value];
+    }
+    return [apiData.readings[0].value];
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       {apiData && (
         <View style={{ paddingHorizontal: '3%' }}>
           <View style={styles.currentReading}>
-            <ReadingValue latestReading={apiData.readings[0].value} />
-            <View>
-              <GlucoseDirectionArrow
-                twoLatestReadings={getLatestTwoReadings()}
-              />
-              <GlucoseUnit />
-            </View>
+            {apiData.readings[0] ? (
+              <>
+                <ReadingValue latestReading={apiData.readings[0].value} />
+                <View>
+                  <GlucoseDirectionArrow
+                    twoLatestReadings={getLatestTwoReadings()}
+                  />
+                  <GlucoseUnit />
+                </View>
+              </>
+            ) : (
+              <Text
+                style={{
+                  color: '#FFFFFF',
+                  fontSize: 40,
+                }}
+              >
+                No reading found
+              </Text>
+            )}
           </View>
           <View style={styles.subContainer}>
             <RunningAverage average={apiData.data.average} />
@@ -202,7 +173,7 @@ const HomeScreen = () => {
             </View>
           </View>
           <View>
-            <GlucoseGraph mockData={mockData} readings={apiData.readings} />
+            <GlucoseGraph readings={apiData.readings} />
           </View>
         </View>
       )}
@@ -233,6 +204,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+    height: 160,
   },
   subHeading: {
     flexDirection: 'row',
