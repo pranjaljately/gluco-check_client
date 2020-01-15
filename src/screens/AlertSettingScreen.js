@@ -3,8 +3,14 @@ import { View, StyleSheet, Text, SafeAreaView } from 'react-native';
 import TransparentHeader from '../components/TransparentHeader';
 import SwitchWithLabel from '../components/SwitchWithLabel';
 import registerForPushNotificationsAsync from '../services/RegisterForPushNotificationsAsync ';
-import checkIfNotificationsEnabled from '../services/CheckIfNotificationsEnabled';
+import areNotificationsEnabled from '../services/AreNotificationsEnabled';
 import ErrorAlert from '../components/ErrorAlert';
+import {
+  setHighNotificationAsync,
+  getHighNotification,
+  setLowNotificationAsync,
+  getLowNotification,
+} from '../services/NotificationPreferences';
 
 const AlertSettingScreen = () => {
   const [lowNotification, setLowNotification] = useState(true);
@@ -16,27 +22,16 @@ const AlertSettingScreen = () => {
       'To receive alerts you must enable notifications. Please enable notifications in Settings.',
   };
 
-  const onLowToggle = async () => {
-    let toggleState = !lowNotification;
-    if (!(await checkIfNotificationsEnabled())) {
-      ErrorAlert(alertMessage);
-      toggleState = false;
-    }
-    setLowNotification(toggleState);
-  };
-  const onHighToggle = async () => {
-    let toggleState = !highNotification;
-    if (!(await checkIfNotificationsEnabled())) {
-      ErrorAlert(alertMessage);
-      toggleState = false;
-    }
-    setHighNotification(toggleState);
-  };
-
   useEffect(() => {
     const permissions = async () => {
       try {
         await registerForPushNotificationsAsync();
+
+        const userHighNotification = await getHighNotification();
+        const userLowNotification = await getLowNotification();
+
+        setHighNotification(userHighNotification);
+        setLowNotification(userLowNotification);
       } catch (err) {
         console.log(err.message);
       }
@@ -44,9 +39,28 @@ const AlertSettingScreen = () => {
     permissions();
   }, []);
 
+  const onLowToggle = async () => {
+    let toggleState = !lowNotification;
+    if (!(await areNotificationsEnabled())) {
+      ErrorAlert(alertMessage);
+      toggleState = false;
+    }
+    setLowNotification(toggleState);
+    setLowNotificationAsync(toggleState);
+  };
+
+  const onHighToggle = async () => {
+    let toggleState = !highNotification;
+    if (!(await areNotificationsEnabled())) {
+      ErrorAlert(alertMessage);
+      toggleState = false;
+    }
+    setHighNotification(toggleState);
+    setHighNotificationAsync(toggleState);
+  };
+
   /* 
-    Todo: Stop both components re-rendering when one is toggled 
-    Todo: Move useEffect to home screen 
+    Todo: Stop both components re-rendering when one is toggled  
   */
 
   return (

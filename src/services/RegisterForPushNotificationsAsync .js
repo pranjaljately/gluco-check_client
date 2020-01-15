@@ -2,6 +2,13 @@ import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 
+import {
+  setHighNotificationAsync,
+  setLowNotificationAsync,
+  getLowNotification,
+  getHighNotification,
+} from './NotificationPreferences';
+
 const { manifest } = Constants;
 
 const PUSH_ENDPOINT = `http://${manifest.debuggerHost
@@ -25,7 +32,17 @@ const registerForPushNotificationsAsync = async () => {
 
   // Stop here if the user did not grant permissions
   if (finalStatus !== 'granted') {
+    setHighNotificationAsync(false);
+    setLowNotificationAsync(false);
     return Promise.reject(new Error('User did not grant permissions'));
+  }
+
+  if ((await getHighNotification()) === undefined) {
+    setHighNotificationAsync(true);
+  }
+
+  if ((await getLowNotification()) === undefined) {
+    setLowNotificationAsync(true);
   }
 
   // Get the token that uniquely identifies this device

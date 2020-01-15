@@ -7,7 +7,9 @@ const AuthLoadingScreen = ({ navigation }) => {
   useEffect(() => {
     const bootstrapAsync = async () => {
       const token = await AsyncStorage.getItem('token');
-      SetAuthToken(token);
+      if (token) {
+        SetAuthToken(token);
+      }
       navigation.navigate(token ? 'App' : 'Auth');
     };
     bootstrapAsync();
