@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import TransparentHeader from '../components/TransparentHeader';
 import PromptAlert from '../components/PromptAlert';
 import PrimaryBtn from '../components/PrimaryBtn';
+import Description from '../components/Description';
 
 const SettingsScreen = ({ navigation }) => {
   const positiveButtonPress = async () => {
@@ -28,6 +29,9 @@ const SettingsScreen = ({ navigation }) => {
             }
           />
         </View>
+        <View style={styles.version}>
+          <Description text='App version 1.0.1' />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -45,6 +49,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: '3%',
     borderBottomWidth: 0.5,
   },
+  version: { paddingHorizontal: '3%', padding: 10 },
 });
 
 SettingsScreen.propTypes = {
