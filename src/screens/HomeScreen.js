@@ -74,8 +74,8 @@ const HomeScreen = () => {
   };
 
   // const createFakeApiData = async () => {
-  //   let startTimeStamp = 1579012252000;
-  //   let endTimeStamp = 1579017052000;
+  //   let startTimeStamp = 1579046400000;
+  //   let endTimeStamp = 1579107061000;
 
   //   while (startTimeStamp < endTimeStamp) {
   //     let reading = (Math.random() * (15 - 0.1) + 0.1).toFixed(1);
@@ -177,7 +177,7 @@ const HomeScreen = () => {
           </View>
         </View>
       )}
-      <View>
+      <View style={{ marginVertical: 10 }}>
         <FrequencyTabs
           tabs={tabs}
           selectedTabId={selectedTab.id}
