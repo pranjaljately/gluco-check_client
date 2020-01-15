@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 14,
     textTransform: 'uppercase',
+    letterSpacing: 2,
   },
 });
 

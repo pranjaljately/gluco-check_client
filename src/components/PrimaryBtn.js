@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     paddingVertical: 12,
   },
-  buttonText: { fontSize: 20, color: '#FFFFFF' },
+  buttonText: { fontSize: 20, color: '#FFFFFF', letterSpacing: 1 },
 });
 
 PrimaryBtn.defaultProps = {
