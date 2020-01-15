@@ -18,7 +18,7 @@ const SettingsScreen = ({ navigation }) => {
       <View style={{ marginTop: 25 }}>
         <View style={styles.logOut}>
           <PrimaryBtn
-            text='Log out?'
+            text='Log out'
             onPress={() =>
               PromptAlert({
                 title: 'Log out',
