@@ -73,18 +73,6 @@ const AppTabScreens = createMaterialBottomTabNavigator(
         ),
       },
     },
-    Profile: {
-      screen: AlertSettingScreen,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => (
-          <MaterialIcons
-            name='account-circle'
-            style={{ color: tintColor }}
-            size={26}
-          />
-        ),
-      },
-    },
   },
   {
     initialRouteName: 'Home',
