@@ -10,8 +10,8 @@ const RefreshIcon = ({ onIconPress }) => (
     backgroundColor='transparent'
     iconStyle={styles.icon}
     onPress={() => onIconPress()}
-    activeOpacity={0.8}
-    underlayColor='rgba(0, 0, 0, 0.1)'
+    activeOpacity={0.7}
+    underlayColor='rgba(0, 0, 0, 0)'
   />
 );
 
