@@ -74,10 +74,12 @@ const HomeScreen = () => {
   };
 
   // const createFakeApiData = async () => {
-  //   let startTimeStamp = 1579046400000;
-  //   let endTimeStamp = 1579107061000;
+  //   let startTimeStamp = moment()
+  //     .subtract(24, 'hours')
+  //     .valueOf();
+  //   let endTimeStamp = 1579262407000;
 
-  //   while (startTimeStamp < endTimeStamp) {
+  //   while (startTimeStamp <= endTimeStamp) {
   //     let reading = (Math.random() * (15 - 0.1) + 0.1).toFixed(1);
   //     let momentObj = moment(startTimeStamp);
 
