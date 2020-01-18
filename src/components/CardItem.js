@@ -25,8 +25,7 @@ const styles = StyleSheet.create({
     height: 125,
     marginVertical: 7,
     elevation: 10,
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingVertical: 15,
     justifyContent: 'space-around',
   },
   cardTitle: {
