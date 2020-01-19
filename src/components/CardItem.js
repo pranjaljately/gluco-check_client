@@ -1,12 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
+import CardTitle from './CardTitle';
 
 const CardItem = ({ title, value, unit }) => (
   <View style={styles.card}>
-    <View>
-      <Text style={styles.cardTitle}>{title}</Text>
-    </View>
+    <CardTitle title={title} />
     <View>
       <Text style={{ fontSize: 55, color: '#FF3A79' }}>
         {value}
@@ -27,12 +26,6 @@ const styles = StyleSheet.create({
     elevation: 10,
     paddingVertical: 15,
     justifyContent: 'space-around',
-  },
-  cardTitle: {
-    color: '#FFFFFF',
-    fontSize: 17,
-    letterSpacing: 2,
-    textTransform: 'uppercase',
   },
 });
 
