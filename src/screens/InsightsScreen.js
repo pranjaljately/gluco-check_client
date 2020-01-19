@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
+import { View, SafeAreaView, StyleSheet } from 'react-native';
 import moment from 'moment';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import TransparentHeader from '../components/TransparentHeader';
 import FrequencyTabs from '../components/FrequencyTabs';
+import InsightCardsSmall from '../components/InsightCardsSmall';
+import InsightCardLong from '../components/InsightCardLong';
+import Subheader from '../components/Subheader';
+import CalendarIcon from '../components/CalendarIcon';
 
 const tabs = [
   {
@@ -10,7 +15,7 @@ const tabs = [
     text: 'Daily',
     fromTimestampParam() {
       return moment()
-        .subtract(1, 'hours')
+        .startOf('day')
         .valueOf();
     },
   },
@@ -19,7 +24,7 @@ const tabs = [
     text: 'Weekly',
     fromTimestampParam() {
       return moment()
-        .subtract(6, 'hours')
+        .startOf('isoWeek')
         .valueOf();
     },
   },
@@ -28,7 +33,7 @@ const tabs = [
     text: 'Monthly',
     fromTimestampParam() {
       return moment()
-        .subtract(12, 'hours')
+        .startOf('month')
         .valueOf();
     },
   },
@@ -37,15 +42,61 @@ const tabs = [
     text: 'Yearly',
     fromTimestampParam() {
       return moment()
-        .subtract(24, 'hours')
+        .startOf('year')
         .valueOf();
     },
+  },
+];
+
+const cardsData = [
+  {
+    id: 'average',
+    title: 'Avg glucose',
+    value: '5.9',
+    unit: 'mmol/L',
+  },
+  {
+    id: 'A1C',
+    title: 'Estimated A1C',
+    value: '6.3',
+    unit: '%',
+  },
+  {
+    id: 'lowEventsCount',
+    title: 'Low BG events',
+    value: 4,
+    unit: 'times',
+  },
+  {
+    id: 'highEventsCount',
+    title: 'High BG events',
+    value: 10,
+    unit: 'times',
+  },
+];
+
+const longCardData = [
+  {
+    id: 'low',
+    value: 10,
+    unit: '% low',
+  },
+  {
+    id: 'target',
+    value: 65,
+    unit: '% in target*',
+  },
+  {
+    id: 'high',
+    value: 10,
+    unit: '% high',
   },
 ];
 
 const Insights = () => {
   const firstTab = tabs[0];
   const [selectedTab, setSelectedTab] = useState(firstTab);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const updateSelected = tab => {
     setSelectedTab(tab);
@@ -54,6 +105,18 @@ const Insights = () => {
   const onFrequencyTabPress = tabId => {
     const tab = tabs.find(tab => tab.id === tabId);
     updateSelected(tab);
+  };
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = date => {
+    console.warn('A date has been picked: ', date);
+    hideDatePicker();
   };
 
   return (
@@ -64,130 +127,20 @@ const Insights = () => {
         selectedTabId={selectedTab.id}
         onFrequencyTabPress={onFrequencyTabPress}
       />
-      <View
-        style={{
-          padding: 10,
-          marginTop: 7,
-          alignItems: 'center',
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: 'bold',
-            color: '#FFFFFF',
-          }}
-        >
-          23 Mon 2019 - 29 Sun 2019
-        </Text>
+      <View style={styles.subContainer}>
+        <Subheader text='23 Mon 2019 - 29 Sun 2019' />
+        <CalendarIcon onIconPress={showDatePicker} />
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          paddingHorizontal: '5%',
-        }}
-      >
-        <View style={styles.card}>
-          <View>
-            <Text style={styles.cardTitle}>AVG GLUCOSE</Text>
-          </View>
-          <View>
-            <Text style={{ fontSize: 55, color: '#FF3A79' }}>
-              5.9<Text style={{ fontSize: 20, color: '#FFFFFF' }}>mmol/L</Text>
-            </Text>
-          </View>
-        </View>
-        <View style={styles.card}>
-          <View>
-            <Text style={styles.cardTitle}>ESTIMATED A1C</Text>
-          </View>
-          <View>
-            <Text style={{ fontSize: 60, color: '#FF3A79' }}>
-              6.3<Text style={{ fontSize: 20, color: '#FFFFFF' }}>%</Text>
-            </Text>
-          </View>
-        </View>
-        <View style={styles.card}>
-          <View>
-            <Text style={styles.cardTitle}>LOW BG EVENTS</Text>
-          </View>
-          <View>
-            <Text style={{ fontSize: 60, color: '#FF3A79' }}>
-              4<Text style={{ fontSize: 20, color: '#FFFFFF' }}>times</Text>
-            </Text>
-          </View>
-        </View>
-        <View style={styles.card}>
-          <View>
-            <Text style={styles.cardTitle}>HIGH BG EVENTS</Text>
-          </View>
-          <View>
-            <Text style={{ fontSize: 60, color: '#FF3A79' }}>
-              10
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: '#FFFFFF',
-                }}
-              >
-                times
-              </Text>
-            </Text>
-          </View>
-        </View>
-        <View style={[styles.card, styles.cardLong]}>
-          <View>
-            <Text style={styles.cardTitle}>BG DISTRIBUTION</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              width: '100%',
-              justifyContent: 'space-between',
-              paddingVertical: 10,
-            }}
-          >
-            <View style={{ alignItems: 'center' }}>
-              <Text style={{ fontSize: 60, color: '#FF3A79' }}>10</Text>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: '#FFFFFF',
-                  letterSpacing: 2,
-                }}
-              >
-                % LOW
-              </Text>
-            </View>
-            <View style={{ alignItems: 'center' }}>
-              <Text style={{ fontSize: 60, color: '#FF3A79' }}>65</Text>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: '#FFFFFF',
-                  letterSpacing: 2,
-                }}
-              >
-                % IN TARGET*
-              </Text>
-            </View>
-            <View style={{ alignItems: 'center' }}>
-              <Text style={{ fontSize: 60, color: '#FF3A79' }}>25</Text>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: '#FFFFFF',
-                  letterSpacing: 2,
-                }}
-              >
-                % HIGH
-              </Text>
-            </View>
-          </View>
-        </View>
+      <View style={{ paddingHorizontal: '5%' }}>
+        <InsightCardsSmall data={cardsData} />
+        <InsightCardLong title='BG Distribution' data={longCardData} />
       </View>
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode='date'
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
     </SafeAreaView>
   );
 };
@@ -197,25 +150,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#333333',
   },
-  card: {
-    backgroundColor: '#464646',
-    alignItems: 'center',
-    width: 180,
-    borderRadius: 5,
-    height: 125,
-    marginVertical: 10,
-    elevation: 10,
-    paddingTop: 15,
-    paddingBottom: 15,
-    justifyContent: 'space-around',
+  subContainer: {
+    marginTop: 7,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingHorizontal: '3%',
+    paddingVertical: 8,
   },
-  cardLong: {
-    width: '100%',
-    alignItems: 'flex-start',
-    paddingHorizontal: 20,
-    height: 175,
-  },
-  cardTitle: { color: '#FFFFFF', fontSize: 20, letterSpacing: 2 },
 });
 
 export default Insights;
