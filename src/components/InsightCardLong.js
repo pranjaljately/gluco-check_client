@@ -4,7 +4,25 @@ import PropTypes from 'prop-types';
 import CardTitle from './CardTitle';
 import LongCardItem from './LongCardItem';
 
-const InsightCardLong = ({ title, data }) => {
+const InsightCardLong = ({ title, distribution: { low, high, target } }) => {
+  const data = [
+    {
+      id: 'low',
+      value: low,
+      unit: '% low',
+    },
+    {
+      id: 'target',
+      value: high,
+      unit: '% in target*',
+    },
+    {
+      id: 'high',
+      value: target,
+      unit: '% high',
+    },
+  ];
+
   const longCardItems = data.map(card => (
     <LongCardItem key={card.id} card={card} />
   ));
@@ -40,6 +58,6 @@ const styles = StyleSheet.create({
 
 InsightCardLong.propTypes = {
   title: PropTypes.string.isRequired,
-  data: PropTypes.array.isRequired,
+  distribution: PropTypes.object.isRequired,
 };
 export default InsightCardLong;
