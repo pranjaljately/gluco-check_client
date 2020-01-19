@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, StyleSheet } from 'react-native';
 import moment from 'moment';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -8,104 +8,110 @@ import InsightCardsSmall from '../components/InsightCardsSmall';
 import InsightCardLong from '../components/InsightCardLong';
 import Subheader from '../components/Subheader';
 import CalendarIcon from '../components/CalendarIcon';
+import getReadings from '../services/api/GetReadings';
 
 const tabs = [
   {
-    id: 'daily',
+    id: 'day',
     text: 'Daily',
-    fromTimestampParam() {
-      return moment()
+    fromTimestampParam(date = moment()) {
+      return moment(date)
         .startOf('day')
         .valueOf();
     },
+    toTimestampParam(date = moment()) {
+      return moment(date)
+        .endOf('day')
+        .valueOf();
+    },
   },
   {
-    id: 'weekly',
+    id: 'isoWeek',
     text: 'Weekly',
-    fromTimestampParam() {
-      return moment()
+    fromTimestampParam(date = moment()) {
+      return moment(date)
         .startOf('isoWeek')
         .valueOf();
     },
+    toTimestampParam(date = moment()) {
+      return moment(date)
+        .endOf('isoWeek')
+        .valueOf();
+    },
   },
   {
-    id: 'monthly',
+    id: 'month',
     text: 'Monthly',
-    fromTimestampParam() {
-      return moment()
+    fromTimestampParam(date = moment()) {
+      return moment(date)
         .startOf('month')
         .valueOf();
     },
+    toTimestampParam(date = moment()) {
+      return moment(date)
+        .endOf('month')
+        .valueOf();
+    },
   },
   {
-    id: 'yearly',
+    id: 'year',
     text: 'Yearly',
-    fromTimestampParam() {
-      return moment()
+    fromTimestampParam(date = moment()) {
+      return moment(date)
         .startOf('year')
+        .valueOf();
+    },
+    toTimestampParam(date = moment()) {
+      return moment(date)
+        .endOf('year')
         .valueOf();
     },
   },
 ];
 
-const cardsData = [
-  {
-    id: 'average',
-    title: 'Avg glucose',
-    value: '5.9',
-    unit: 'mmol/L',
-  },
-  {
-    id: 'A1C',
-    title: 'Estimated A1C',
-    value: '6.3',
-    unit: '%',
-  },
-  {
-    id: 'lowEventsCount',
-    title: 'Low BG events',
-    value: 4,
-    unit: 'times',
-  },
-  {
-    id: 'highEventsCount',
-    title: 'High BG events',
-    value: 10,
-    unit: 'times',
-  },
-];
-
-const longCardData = [
-  {
-    id: 'low',
-    value: 10,
-    unit: '% low',
-  },
-  {
-    id: 'target',
-    value: 65,
-    unit: '% in target*',
-  },
-  {
-    id: 'high',
-    value: 10,
-    unit: '% high',
-  },
-];
+const formatDate = date => moment(date).format('DD MMM YYYY');
 
 const Insights = () => {
   const firstTab = tabs[0];
   const [selectedTab, setSelectedTab] = useState(firstTab);
+  const [apiData, setApiData] = useState();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [formattedFromDate, setFormattedFromDate] = useState(
+    formatDate(selectedTab.fromTimestampParam())
+  );
+  const [formattedToDate, setFormattedToDate] = useState(
+    formatDate(selectedTab.toTimestampParam())
+  );
+
+  useEffect(() => {
+    getReadingsData(
+      selectedTab.fromTimestampParam(),
+      selectedTab.toTimestampParam()
+    );
+  }, []);
+
+  const getReadingsData = async (from, to) => {
+    try {
+      const res = await getReadings(from, to);
+      setApiData(res.data);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   const updateSelected = tab => {
     setSelectedTab(tab);
+
+    getReadingsData(tab.fromTimestampParam(), tab.toTimestampParam());
+    setFormattedFromDate(formatDate(tab.fromTimestampParam()));
+    setFormattedToDate(formatDate(tab.toTimestampParam()));
   };
 
   const onFrequencyTabPress = tabId => {
     const tab = tabs.find(tab => tab.id === tabId);
     updateSelected(tab);
   };
+
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -115,8 +121,15 @@ const Insights = () => {
   };
 
   const handleConfirm = date => {
-    console.warn('A date has been picked: ', date);
     hideDatePicker();
+
+    const from = selectedTab.fromTimestampParam(date);
+    const to = selectedTab.toTimestampParam(date);
+
+    setFormattedFromDate(formatDate(from));
+    setFormattedToDate(formatDate(to));
+
+    getReadingsData(from, to);
   };
 
   return (
@@ -128,13 +141,18 @@ const Insights = () => {
         onFrequencyTabPress={onFrequencyTabPress}
       />
       <View style={styles.subContainer}>
-        <Subheader text='23 Mon 2019 - 29 Sun 2019' />
+        <Subheader text={`${formattedFromDate} - ${formattedToDate}`} />
         <CalendarIcon onIconPress={showDatePicker} />
       </View>
-      <View style={{ paddingHorizontal: '5%' }}>
-        <InsightCardsSmall data={cardsData} />
-        <InsightCardLong title='BG Distribution' data={longCardData} />
-      </View>
+      {apiData && (
+        <View style={{ paddingHorizontal: '5%' }}>
+          <InsightCardsSmall data={apiData} />
+          <InsightCardLong
+            title='BG Distribution'
+            distribution={apiData.distribution}
+          />
+        </View>
+      )}
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode='date'
