@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import CardItem from './CardItem';
 
 const InsightCardsSmall = ({ data }) => {
-  const cardItems = data.map(({ id, title, value, unit }) => (
-    <CardItem key={id} title={title} value={value} unit={unit} />
-  ));
+  const cardItems = data.map(card => <CardItem key={card.id} card={card} />);
   return <View style={styles.container}>{cardItems}</View>;
 };
 

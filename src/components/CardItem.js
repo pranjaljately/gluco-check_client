@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import CardTitle from './CardTitle';
 
-const CardItem = ({ title, value, unit }) => (
+const CardItem = ({ card: { title, value, unit } }) => (
   <View style={styles.card}>
     <CardTitle title={title} />
     <View>
@@ -30,8 +30,6 @@ const styles = StyleSheet.create({
 });
 
 CardItem.propTypes = {
-  title: PropTypes.string.isRequired,
-  unit: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  card: PropTypes.object.isRequired,
 };
 export default CardItem;
