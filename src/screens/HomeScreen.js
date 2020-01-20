@@ -16,53 +16,42 @@ const { manifest } = Constants;
 
 const tabs = [
   {
-    id: '1hours',
+    id: '1',
     text: '1 hour',
-    fromTimestampParam() {
-      return moment()
-        .subtract(1, 'hours')
-        .valueOf();
-    },
   },
   {
-    id: '6hours',
+    id: '6',
     text: '6 hours',
-    fromTimestampParam() {
-      return moment()
-        .subtract(6, 'hours')
-        .valueOf();
-    },
   },
   {
-    id: '12hours',
+    id: '12',
     text: '12 hours',
-    fromTimestampParam() {
-      return moment()
-        .subtract(12, 'hours')
-        .valueOf();
-    },
   },
   {
-    id: '24hours',
+    id: '24',
     text: '24 hours',
-    fromTimestampParam() {
-      return moment()
-        .subtract(24, 'hours')
-        .valueOf();
-    },
   },
 ];
+
+const calculateFromTimestamp = hoursToSubtract =>
+  moment()
+    .subtract(hoursToSubtract, 'hours')
+    .valueOf();
 
 const HomeScreen = () => {
   const firstTab = tabs[0];
   const [selectedTab, setSelectedTab] = useState(firstTab);
   const [apiData, setApiData] = useState();
   const [updatedAt, setUpdatedAt] = useState(moment().format('HH:mm'));
+  const [fromTimestamp, setfromTimestamp] = useState(
+    calculateFromTimestamp(selectedTab.id)
+  );
 
   useEffect(() => {
     // createFakeApiData();
-    getReadingsData(selectedTab.fromTimestampParam());
-  }, []);
+    getReadingsData(fromTimestamp);
+    updateLastUpdated();
+  }, [fromTimestamp]);
 
   const getReadingsData = async (from, to = moment().valueOf()) => {
     try {
@@ -77,7 +66,9 @@ const HomeScreen = () => {
   //   let startTimeStamp = moment()
   //     .subtract(24, 'hours')
   //     .valueOf();
-  //   let endTimeStamp = 1579262407000;
+  //   let endTimeStamp = moment()
+  //     .endOf('day')
+  //     .valueOf();
 
   //   while (startTimeStamp <= endTimeStamp) {
   //     let reading = (Math.random() * (15 - 0.1) + 0.1).toFixed(1);
@@ -114,24 +105,20 @@ const HomeScreen = () => {
   //   }
   // };
 
-  const updateSelected = tab => {
-    setSelectedTab(tab);
-  };
+  const updateSelected = tab => setSelectedTab(tab);
 
-  const updateLastUpdated = () => {
-    setUpdatedAt(moment().format('HH:mm'));
-  };
+  const updateFromTime = time => setfromTimestamp(time);
 
-  const onIconPress = () => {
-    getReadingsData(selectedTab.fromTimestampParam());
-    updateLastUpdated();
-  };
+  const updateLastUpdated = () => setUpdatedAt(moment().format('HH:mm'));
+
+  const onIconPress = () =>
+    updateFromTime(calculateFromTimestamp(selectedTab.id));
 
   const onFrequencyTabPress = tabId => {
     const tab = tabs.find(tab => tab.id === tabId);
     updateSelected(tab);
-    getReadingsData(tab.fromTimestampParam());
-    updateLastUpdated();
+    const from = calculateFromTimestamp(tab.id);
+    updateFromTime(from);
   };
 
   const getLatestTwoReadings = () => {
