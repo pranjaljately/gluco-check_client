@@ -66,9 +66,7 @@ const InsightsScreen = () => {
     }
   };
 
-  const updateSelectedTab = tab => {
-    setSelectedTab(tab);
-  };
+  const updateSelectedTab = tab => setSelectedTab(tab);
 
   const onFrequencyTabPress = tabId => {
     const tab = tabs.find(tab => tab.id === tabId);
@@ -76,17 +74,11 @@ const InsightsScreen = () => {
     updateSelectedDate(moment().valueOf());
   };
 
-  const updateSelectedDate = date => {
-    setSelectedDate(date);
-  };
+  const updateSelectedDate = date => setSelectedDate(date);
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
+  const showDatePicker = () => setDatePickerVisibility(true);
 
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
+  const hideDatePicker = () => setDatePickerVisibility(false);
 
   const handleConfirm = date => {
     hideDatePicker();
