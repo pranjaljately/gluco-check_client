@@ -161,9 +161,7 @@ const HomeScreen = () => {
               <RefreshIcon onIconPress={onIconPress} />
             </View>
           </View>
-          <View>
-            <GlucoseGraph readings={apiData.readings} />
-          </View>
+          <GlucoseGraph readings={apiData.readings} />
         </View>
       )}
       <View style={{ marginVertical: 10 }}>
