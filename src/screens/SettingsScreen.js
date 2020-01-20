@@ -1,14 +1,10 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  SafeAreaView,
-  Text,
-  AsyncStorage,
-} from 'react-native';
+import { View, StyleSheet, SafeAreaView, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import TransparentHeader from '../components/TransparentHeader';
 import PromptAlert from '../components/PromptAlert';
+import PrimaryBtn from '../components/PrimaryBtn';
+import Description from '../components/Description';
 
 const SettingsScreen = ({ navigation }) => {
   const positiveButtonPress = async () => {
@@ -21,8 +17,8 @@ const SettingsScreen = ({ navigation }) => {
       <TransparentHeader title='Settings' />
       <View style={{ marginTop: 25 }}>
         <View style={styles.logOut}>
-          <Text
-            style={styles.label}
+          <PrimaryBtn
+            text='Log out'
             onPress={() =>
               PromptAlert({
                 title: 'Log out',
@@ -31,9 +27,10 @@ const SettingsScreen = ({ navigation }) => {
                 positiveButtonPress,
               })
             }
-          >
-            Log out
-          </Text>
+          />
+        </View>
+        <View style={styles.version}>
+          <Description text='App version 1.0.1' />
         </View>
       </View>
     </SafeAreaView>
@@ -47,12 +44,12 @@ const styles = StyleSheet.create({
   },
   label: { fontSize: 20, color: '#FFFFFF' },
   logOut: {
-    paddingVertical: 12,
     borderTopWidth: 0.5,
     borderColor: '#757575',
     paddingHorizontal: '3%',
     borderBottomWidth: 0.5,
   },
+  version: { paddingHorizontal: '3%', padding: 10 },
 });
 
 SettingsScreen.propTypes = {

@@ -10,6 +10,7 @@ const TransparentHeader = ({ title }) => (
           fontSize: 25,
           color: '#FF3A79',
           textTransform: 'uppercase',
+          letterSpacing: 3,
         }}
       >
         {title}

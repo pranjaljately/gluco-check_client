@@ -13,6 +13,7 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
+import InsightsScreen from './screens/InsightsScreen';
 
 const styles = {
   auth: {
@@ -49,7 +50,7 @@ const AppTabScreens = createMaterialBottomTabNavigator(
       },
     },
     Insights: {
-      screen: AlertSettingScreen,
+      screen: InsightsScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <MaterialIcons
@@ -66,18 +67,6 @@ const AppTabScreens = createMaterialBottomTabNavigator(
         tabBarIcon: ({ tintColor }) => (
           <MaterialIcons
             name='settings'
-            style={{ color: tintColor }}
-            size={26}
-          />
-        ),
-      },
-    },
-    Profile: {
-      screen: AlertSettingScreen,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => (
-          <MaterialIcons
-            name='account-circle'
             style={{ color: tintColor }}
             size={26}
           />

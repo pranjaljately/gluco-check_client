@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, SafeAreaView } from 'react-native';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
 import TransparentHeader from '../components/TransparentHeader';
 import SwitchWithLabel from '../components/SwitchWithLabel';
+import Description from '../components/Description';
 import registerForPushNotificationsAsync from '../services/RegisterForPushNotificationsAsync ';
 import areNotificationsEnabled from '../services/AreNotificationsEnabled';
 import ErrorAlert from '../components/ErrorAlert';
@@ -67,10 +68,10 @@ const AlertSettingScreen = () => {
     <SafeAreaView style={styles.container}>
       <TransparentHeader title='Alerts' />
       <View style={{ paddingHorizontal: '3%' }}>
-        <Text style={styles.description}>
-          Receive notifications when your glcuose drops below 4.0 or goes above
-          7.0
-        </Text>
+        <Description
+          text='Receive notifications when your glcuose drops below 4.0 or goes above
+          7.0'
+        />
       </View>
       <View style={{ marginTop: 25 }}>
         <View style={styles.switchItem}>
@@ -96,11 +97,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#333333',
-  },
-  description: {
-    fontSize: 15,
-    color: '#FFFFFF',
-    opacity: 0.5,
   },
   switchItem: {
     borderTopWidth: 0.5,
