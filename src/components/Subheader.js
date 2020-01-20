@@ -5,12 +5,9 @@ import PropTypes from 'prop-types';
 const Subheader = ({ text }) => (
   <View
     style={{
-      fontSize: 18,
-      fontWeight: 'bold',
-      color: '#FFFFFF',
       alignSelf: 'center',
       flex: 1,
-      marginLeft: 39,
+      marginLeft: 42,
     }}
   >
     <Text
