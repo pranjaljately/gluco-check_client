@@ -14,81 +14,48 @@ const tabs = [
   {
     id: 'day',
     text: 'Daily',
-    fromTimestampParam(date = moment()) {
-      return moment(date)
-        .startOf('day')
-        .valueOf();
-    },
-    toTimestampParam(date = moment()) {
-      return moment(date)
-        .endOf('day')
-        .valueOf();
-    },
   },
   {
     id: 'isoWeek',
     text: 'Weekly',
-    fromTimestampParam(date = moment()) {
-      return moment(date)
-        .startOf('isoWeek')
-        .valueOf();
-    },
-    toTimestampParam(date = moment()) {
-      return moment(date)
-        .endOf('isoWeek')
-        .valueOf();
-    },
   },
   {
     id: 'month',
     text: 'Monthly',
-    fromTimestampParam(date = moment()) {
-      return moment(date)
-        .startOf('month')
-        .valueOf();
-    },
-    toTimestampParam(date = moment()) {
-      return moment(date)
-        .endOf('month')
-        .valueOf();
-    },
   },
   {
     id: 'year',
     text: 'Yearly',
-    fromTimestampParam(date = moment()) {
-      return moment(date)
-        .startOf('year')
-        .valueOf();
-    },
-    toTimestampParam(date = moment()) {
-      return moment(date)
-        .endOf('year')
-        .valueOf();
-    },
   },
 ];
 
 const formatDate = date => moment(date).format('DD MMM YYYY');
 
-const Insights = () => {
+const InsightsScreen = () => {
   const firstTab = tabs[0];
   const [selectedTab, setSelectedTab] = useState(firstTab);
   const [apiData, setApiData] = useState();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [formattedFromDate, setFormattedFromDate] = useState(
-    formatDate(selectedTab.fromTimestampParam())
-  );
-  const [formattedToDate, setFormattedToDate] = useState(
-    formatDate(selectedTab.toTimestampParam())
-  );
+  const [selectedDate, setSelectedDate] = useState(moment().valueOf());
 
   useEffect(() => {
-    getReadingsData(
-      selectedTab.fromTimestampParam(),
-      selectedTab.toTimestampParam()
-    );
-  }, []);
+    const from = extractFromDate(selectedDate);
+    const to = extractToDate(selectedDate);
+    getReadingsData(from, to);
+  }, [selectedDate]);
+
+  const extractFromDate = date =>
+    moment(date)
+      .startOf(selectedTab.id)
+      .valueOf();
+
+  const extractToDate = date =>
+    moment(date)
+      .endOf(selectedTab.id)
+      .valueOf();
+
+  const formattedFromDate = formatDate(extractFromDate(selectedDate));
+  const formattedToDate = formatDate(extractToDate(selectedDate));
 
   const getReadingsData = async (from, to) => {
     try {
@@ -99,17 +66,18 @@ const Insights = () => {
     }
   };
 
-  const updateSelected = tab => {
+  const updateSelectedTab = tab => {
     setSelectedTab(tab);
-
-    getReadingsData(tab.fromTimestampParam(), tab.toTimestampParam());
-    setFormattedFromDate(formatDate(tab.fromTimestampParam()));
-    setFormattedToDate(formatDate(tab.toTimestampParam()));
   };
 
   const onFrequencyTabPress = tabId => {
     const tab = tabs.find(tab => tab.id === tabId);
-    updateSelected(tab);
+    updateSelectedTab(tab);
+    updateSelectedDate(moment().valueOf());
+  };
+
+  const updateSelectedDate = date => {
+    setSelectedDate(date);
   };
 
   const showDatePicker = () => {
@@ -122,14 +90,7 @@ const Insights = () => {
 
   const handleConfirm = date => {
     hideDatePicker();
-
-    const from = selectedTab.fromTimestampParam(date);
-    const to = selectedTab.toTimestampParam(date);
-
-    setFormattedFromDate(formatDate(from));
-    setFormattedToDate(formatDate(to));
-
-    getReadingsData(from, to);
+    setSelectedDate(date);
   };
 
   return (
@@ -158,6 +119,7 @@ const Insights = () => {
         mode='date'
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
+        date={new Date(selectedDate)}
       />
     </SafeAreaView>
   );
@@ -177,4 +139,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Insights;
+export default InsightsScreen;
