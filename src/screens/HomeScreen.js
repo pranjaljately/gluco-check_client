@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Platform, SafeAreaView, Text } from 'react-native';
 import Constants from 'expo-constants';
 import moment from 'moment';
+import registerForPushNotificationsAsync from '../services/RegisterForPushNotificationsAsync ';
 import ReadingValue from '../components/ReadingValue';
 import GlucoseDirectionArrow from '../components/GlucoseDirectionArrow';
 import GlucoseUnit from '../components/GlucoseUnit';
@@ -46,6 +47,17 @@ const HomeScreen = () => {
   const [fromTimestamp, setfromTimestamp] = useState(
     calculateFromTimestamp(selectedTab.id)
   );
+
+  useEffect(() => {
+    const permissions = async () => {
+      try {
+        await registerForPushNotificationsAsync();
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    permissions();
+  }, []);
 
   useEffect(() => {
     // createFakeApiData();
