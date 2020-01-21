@@ -3,7 +3,6 @@ import { View, StyleSheet, SafeAreaView } from 'react-native';
 import TransparentHeader from '../components/TransparentHeader';
 import SwitchWithLabel from '../components/SwitchWithLabel';
 import Description from '../components/Description';
-import registerForPushNotificationsAsync from '../services/RegisterForPushNotificationsAsync ';
 import areNotificationsEnabled from '../services/AreNotificationsEnabled';
 import ErrorAlert from '../components/ErrorAlert';
 import {
@@ -24,10 +23,8 @@ const AlertSettingScreen = () => {
   };
 
   useEffect(() => {
-    const permissions = async () => {
+    const getPreferencesAndSetToggles = async () => {
       try {
-        await registerForPushNotificationsAsync();
-
         const userHighNotification = await getHighNotification();
         const userLowNotification = await getLowNotification();
 
@@ -37,7 +34,7 @@ const AlertSettingScreen = () => {
         console.log(err.message);
       }
     };
-    permissions();
+    getPreferencesAndSetToggles();
   }, []);
 
   const onLowToggle = async () => {
