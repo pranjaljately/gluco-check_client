@@ -12,7 +12,6 @@ const setHighNotificationAsync = async value => {
       highNotification: value,
     };
 
-    // await AsyncStorage.setItem(highNotification, JSON.stringify(value));
     await axios.post('/api/v1/notification/high', highNotification, config);
   } catch (err) {
     console.log(err.message);
@@ -31,8 +30,6 @@ const setLowNotificationAsync = async value => {
       lowNotification: value,
     };
 
-    // await AsyncStorage.setItem(lowNotification, JSON.stringify(value));
-
     await axios.post('/api/v1/notification/low', lowNotification, config);
   } catch (err) {
     console.log(err.message);
@@ -43,6 +40,7 @@ const getNotificationPreferences = async () => {
   try {
     const res = await axios.get('api/v1/notification/');
     const { highNotification, lowNotification } = res.data.notification;
+
     return [highNotification, lowNotification];
   } catch (err) {
     console.log(err.message);
