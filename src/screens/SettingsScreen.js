@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, SafeAreaView, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import TransparentHeader from '../components/TransparentHeader';
 import PromptAlert from '../components/PromptAlert';
 import PrimaryBtn from '../components/PrimaryBtn';
@@ -8,7 +9,12 @@ import Description from '../components/Description';
 
 const SettingsScreen = ({ navigation }) => {
   const positiveButtonPress = async () => {
-    await AsyncStorage.clear();
+    try {
+      await AsyncStorage.clear();
+      await axios.delete('/api/v1/notification/token');
+    } catch (err) {
+      console.log(err.message);
+    }
     navigation.navigate('Auth');
   };
 
