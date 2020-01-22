@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, SafeAreaView } from 'react-native';
-import axios from 'axios';
 import TransparentHeader from '../components/TransparentHeader';
 import SwitchWithLabel from '../components/SwitchWithLabel';
 import Description from '../components/Description';
