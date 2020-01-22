@@ -5,9 +5,6 @@ import moment from 'moment';
 const { manifest } = Constants;
 
 const getReadings = async (from, to = moment().valueOf()) => {
-  const uri = `http://${manifest.debuggerHost.split(':').shift()}:5000`;
-  axios.defaults.baseURL = uri;
-
   try {
     let params = '';
 

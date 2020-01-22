@@ -12,9 +12,6 @@ const login = async formData => {
     },
   };
 
-  const uri = `http://${manifest.debuggerHost.split(':').shift()}:5000`;
-  axios.defaults.baseURL = uri;
-
   try {
     const res = await axios.post('/api/v1/auth/login', formData, config);
     const { token } = res.data;
