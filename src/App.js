@@ -7,6 +7,8 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
+import axios from 'axios';
+import Constants from 'expo-constants';
 import HomeScreen from './screens/HomeScreen';
 import AlertSettingScreen from './screens/AlertSettingScreen';
 import LoginScreen from './screens/LoginScreen';
@@ -14,6 +16,12 @@ import RegisterScreen from './screens/RegisterScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
 import InsightsScreen from './screens/InsightsScreen';
+
+const { manifest } = Constants;
+
+// Temp -- needs to be removed for prod
+const uri = `http://${manifest.debuggerHost.split(':').shift()}:5000`;
+axios.defaults.baseURL = uri;
 
 const styles = {
   auth: {
