@@ -59,10 +59,6 @@ const AlertSettingScreen = () => {
     setHighNotification(toggleState);
   };
 
-  /* 
-    Todo: Stop both components re-rendering when one is toggled  
-  */
-
   return (
     <SafeAreaView style={styles.container}>
       <TransparentHeader title='Alerts' />
