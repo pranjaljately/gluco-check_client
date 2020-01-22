@@ -1,9 +1,6 @@
-import Constants from 'expo-constants';
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import SetAuthToken from '../SetAuthToken';
-
-const { manifest } = Constants;
 
 const register = async formData => {
   const config = {

@@ -1,8 +1,5 @@
-import Constants from 'expo-constants';
 import axios from 'axios';
 import moment from 'moment';
-
-const { manifest } = Constants;
 
 const getReadings = async (from, to = moment().valueOf()) => {
   try {
