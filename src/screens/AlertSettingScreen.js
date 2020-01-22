@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, SafeAreaView } from 'react-native';
+import axios from 'axios';
 import TransparentHeader from '../components/TransparentHeader';
 import SwitchWithLabel from '../components/SwitchWithLabel';
 import Description from '../components/Description';
@@ -7,9 +8,8 @@ import areNotificationsEnabled from '../services/AreNotificationsEnabled';
 import ErrorAlert from '../components/ErrorAlert';
 import {
   setHighNotificationAsync,
-  getHighNotification,
   setLowNotificationAsync,
-  getLowNotification,
+  getNotificationPreferences,
 } from '../services/NotificationPreferences';
 
 const AlertSettingScreen = () => {
@@ -25,11 +25,13 @@ const AlertSettingScreen = () => {
   useEffect(() => {
     const getPreferencesAndSetToggles = async () => {
       try {
-        const userHighNotification = await getHighNotification();
-        const userLowNotification = await getLowNotification();
+        const [
+          highNotification,
+          lowNotification,
+        ] = await getNotificationPreferences();
 
-        setHighNotification(userHighNotification);
-        setLowNotification(userLowNotification);
+        setHighNotification(highNotification);
+        setLowNotification(lowNotification);
       } catch (err) {
         console.log(err.message);
       }
@@ -43,8 +45,8 @@ const AlertSettingScreen = () => {
       ErrorAlert(alertMessage);
       toggleState = false;
     }
-    setLowNotification(toggleState);
     setLowNotificationAsync(toggleState);
+    setLowNotification(toggleState);
   };
 
   const onHighToggle = async () => {
@@ -53,8 +55,8 @@ const AlertSettingScreen = () => {
       ErrorAlert(alertMessage);
       toggleState = false;
     }
-    setHighNotification(toggleState);
     setHighNotificationAsync(toggleState);
+    setHighNotification(toggleState);
   };
 
   /* 
