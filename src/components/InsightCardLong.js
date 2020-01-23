@@ -13,12 +13,12 @@ const InsightCardLong = ({ title, distribution: { low, high, target } }) => {
     },
     {
       id: 'target',
-      value: high,
+      value: target,
       unit: '% in target*',
     },
     {
       id: 'high',
-      value: target,
+      value: high,
       unit: '% high',
     },
   ];
