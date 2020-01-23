@@ -1,13 +1,14 @@
 /* eslint-disable global-require */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
-import { AppLoading } from 'expo';
+import { AppLoading, Notifications } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import axios from 'axios';
+import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 import HomeScreen from './screens/HomeScreen';
 import AlertSettingScreen from './screens/AlertSettingScreen';
@@ -136,6 +137,14 @@ const App = () => {
       setIsReady(true);
     };
     getFonts();
+
+    if (Platform.OS === 'android') {
+      Notifications.createChannelAndroidAsync('glucose-alerts', {
+        name: 'Glucose alerts',
+        sound: true,
+        vibrate: true,
+      });
+    }
   }, []);
 
   if (!isReady) return <AppLoading />;
