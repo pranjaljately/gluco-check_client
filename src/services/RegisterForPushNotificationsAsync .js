@@ -1,48 +1,24 @@
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
-import Constants from 'expo-constants';
+import axios from 'axios';
 
 import {
   setHighNotificationAsync,
   setLowNotificationAsync,
-  getLowNotification,
-  getHighNotification,
 } from './NotificationPreferences';
 
-const { manifest } = Constants;
-
-const PUSH_ENDPOINT = `http://${manifest.debuggerHost
-  .split(':')
-  .shift()}:5000/`;
-
 const registerForPushNotificationsAsync = async () => {
-  const { status: existingStatus } = await Permissions.getAsync(
-    Permissions.NOTIFICATIONS
-  );
-  let finalStatus = existingStatus;
-
-  // only ask if permissions have not already been determined, because
+  const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+  // only asks if permissions have not already been determined, because
   // iOS won't necessarily prompt the user a second time.
-  if (existingStatus !== 'granted') {
-    // Android remote notification permissions are granted during the app
-    // install, so this will only ask on iOS
-    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-    finalStatus = status;
-  }
+  // On Android, permissions are granted on app installation, so
+  // `askAsync` will never prompt the user
 
   // Stop here if the user did not grant permissions
-  if (finalStatus !== 'granted') {
+  if (status !== 'granted') {
     setHighNotificationAsync(false);
     setLowNotificationAsync(false);
     return Promise.reject(new Error('User did not grant permissions'));
-  }
-
-  if ((await getHighNotification()) === undefined) {
-    setHighNotificationAsync(true);
-  }
-
-  if ((await getLowNotification()) === undefined) {
-    setLowNotificationAsync(true);
   }
 
   // Get the token that uniquely identifies this device
@@ -51,21 +27,17 @@ const registerForPushNotificationsAsync = async () => {
 
   // POST the token to your backend server from where you can retrieve it to send push notifications.
 
-  return fetch(PUSH_ENDPOINT, {
-    method: 'GET',
+  const config = {
     headers: {
-      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    // body: JSON.stringify({
-    //   token: {
-    //     value: token,
-    //   },
-    //   user: {
-    //     username: 'Brent',
-    //   },
-    // }),
-  });
+  };
+
+  const body = {
+    pushToken: token,
+  };
+
+  return axios.post('/api/v1/notification/token', body, config);
 };
 
 export default registerForPushNotificationsAsync;

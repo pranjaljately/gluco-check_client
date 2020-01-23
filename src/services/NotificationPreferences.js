@@ -1,22 +1,18 @@
-import { AsyncStorage } from 'react-native';
-
-const highNotification = 'highNotification';
-const lowNotification = 'lowNotification';
+import axios from 'axios';
 
 const setHighNotificationAsync = async value => {
   try {
-    await AsyncStorage.setItem(highNotification, JSON.stringify(value));
-  } catch (err) {
-    console.log(err.message);
-  }
-};
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
 
-const getHighNotification = async () => {
-  try {
-    const value = await AsyncStorage.getItem(highNotification);
-    if (value !== null) {
-      return JSON.parse(value);
-    }
+    const highNotification = {
+      highNotification: value,
+    };
+
+    await axios.post('/api/v1/notification/high', highNotification, config);
   } catch (err) {
     console.log(err.message);
   }
@@ -24,18 +20,28 @@ const getHighNotification = async () => {
 
 const setLowNotificationAsync = async value => {
   try {
-    await AsyncStorage.setItem(lowNotification, JSON.stringify(value));
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const lowNotification = {
+      lowNotification: value,
+    };
+
+    await axios.post('/api/v1/notification/low', lowNotification, config);
   } catch (err) {
     console.log(err.message);
   }
 };
 
-const getLowNotification = async () => {
+const getNotificationPreferences = async () => {
   try {
-    const value = await AsyncStorage.getItem(lowNotification);
-    if (value !== null) {
-      return JSON.parse(value);
-    }
+    const res = await axios.get('api/v1/notification/');
+    const { highNotification, lowNotification } = res.data.notification;
+
+    return [highNotification, lowNotification];
   } catch (err) {
     console.log(err.message);
   }
@@ -43,7 +49,6 @@ const getLowNotification = async () => {
 
 export {
   setHighNotificationAsync,
-  getHighNotification,
+  getNotificationPreferences,
   setLowNotificationAsync,
-  getLowNotification,
 };

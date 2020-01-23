@@ -1,9 +1,6 @@
-import Constants from 'expo-constants';
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import SetAuthToken from '../SetAuthToken';
-
-const { manifest } = Constants;
 
 const register = async formData => {
   const config = {
@@ -11,9 +8,6 @@ const register = async formData => {
       'Content-Type': 'application/json',
     },
   };
-
-  const uri = `http://${manifest.debuggerHost.split(':').shift()}:5000`;
-  axios.defaults.baseURL = uri;
 
   try {
     const res = await axios.post('/api/v1/user/register', formData, config);
