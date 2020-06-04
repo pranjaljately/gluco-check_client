@@ -12,6 +12,7 @@
   ```
 - Install packages (root folder of project)
   ```
+  cd src/
   npm install
   ```
 
